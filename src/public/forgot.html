@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot password</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page">
+    <main class="login_card">
+      <h1 class="login_title">Forgot password</h1>
+      <p class="login_hint">
+        Enter your username. If it exists, you will get a one-time reset token
+        (demo app — production apps email you a link).
+      </p>
+      <form class="login_form" id="forgot_form" novalidate>
+        <label class="field_label" for="username">Username</label>
+        <input
+          class="field_input"
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          required
+        />
+
+        <button class="primary_button" type="submit">Request reset</button>
+      </form>
+      <div class="status_region" aria-live="polite">
+        <p class="status_message" id="status_message" role="status"></p>
+        <ul class="status_error_list" id="status_error_list" hidden></ul>
+      </div>
+      <div class="token_panel" id="token_panel" hidden>
+        <p class="token_panel_label">Your reset token</p>
+        <pre class="token_panel_value" id="token_value"></pre>
+        <p class="form_footer_links">
+          <a class="secondary_link" id="reset_link" href="/reset.html"
+            >Go to reset password</a
+          >
+        </p>
+      </div>
+      <p class="form_footer_links">
+        <a class="secondary_link" href="/">Back to sign in</a>
+      </p>
+    </main>
+    <script src="/forgot.js" type="module"></script>
+  </body>
+</html>

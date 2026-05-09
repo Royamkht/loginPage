@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page">
+    <main class="login_card">
+      <h1 class="login_title">Sign in</h1>
+      <p class="login_hint">
+        Demo account: <span class="login_hint_code">demo</span> /
+        <span class="login_hint_code">Demo12345</span>
+        (8+ chars, one capital, one number)
+      </p>
+      <form class="login_form" id="login_form" novalidate>
+        <label class="field_label" for="username">Username</label>
+        <input
+          class="field_input"
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          required
+        />
+
+        <label class="field_label" for="password">Password</label>
+        <input
+          class="field_input"
+          id="password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+
+        <button class="primary_button" type="submit">Log in</button>
+      </form>
+      <div class="status_region" aria-live="polite">
+        <p class="status_message" id="status_message" role="status"></p>
+        <ul class="status_error_list" id="status_error_list" hidden></ul>
+      </div>
+      <p class="form_footer_links">
+        <a class="secondary_link" href="/signup.html">Sign up</a>
+        ·
+        <a class="secondary_link" href="/forgot.html">Forgot password</a>
+      </p>
+    </main>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
