@@ -3,7 +3,7 @@ import { test } from '../utils/fixtures';
 import { randomSignupUsername } from '../api-test.config';
 
 // test.describe('Login API', () => {
-test('login by valid email and password', async ({ api, config }) => {
+test('login by valid email and password!', async ({ api, config }) => {
     const response = await api
         .path('login')
         .body({ username: config.userName, password: config.Passsword })
