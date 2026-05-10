@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '../utils/fixtures';
 import { randomSignupUsername } from '../api-test.config';
 
-test.describe('Login API', () => {
+// test.describe('Login API', () => {
 test('login by valid email and password', async ({ api, config }) => {
     const response = await api
         .path('login')
@@ -92,7 +92,7 @@ test('login by invalid username (without number)', async ({ api,config }) => {
 })
 
 
-});
+// });
 
 // test.describe('Signup API', () => {
 

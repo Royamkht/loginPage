@@ -70,10 +70,11 @@ export default defineConfig({
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  /* Start API for tests that use api-test.config (localhost). In CI there is no server unless this runs. */
+  webServer: {
+    command: 'npm run start',
+    url: 'http://127.0.0.1:3000/api/health',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
+  },
 });
