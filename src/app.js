@@ -14,7 +14,7 @@ import {
 } from "./user_store.js";
 import { API_PATHS } from "./public/api_paths.js";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url));``
 
 export {
   DEMO_USER,
@@ -131,16 +131,19 @@ export function createApp() {
     const genericMessage =
       "If this account exists, you can set a new password using the reset page.";
 
+    if (!result.userExists) {
+      return res.status(404).json({
+        ok: false,
+        error: "Your username is unknown.",
+      });
+    }
+
     return res.json({
       ok: true,
       message: genericMessage,
-      ...(result.userExists
-        ? {
-            reset_token: result.reset_token,
-            demo_note:
-              "Demo only: copy this token into the reset form. Real apps email a link instead.",
-          }
-        : {}),
+      reset_token: result.reset_token,
+      demo_note:
+        "Demo only: copy this token into the reset form. Real apps email a link instead.",
     });
   });
 
