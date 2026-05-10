@@ -1,8 +1,10 @@
-import { APIRequestContext } from "@playwright/test"
+import type { APIRequestContext } from "@playwright/test";
 import { APIlogger } from "./logger";
-import { test } from "@playwright/test"
 
-
+/** Inline steps without importing `test` from @playwright/test (avoids loader/suite confusion when this module is bundled with fixtures). */
+async function apiStep<T>(_title: string, fn: () => Promise<T>): Promise<T> {
+    return fn();
+}
 
 export class RequestHandler {
     private request: APIRequestContext
@@ -49,7 +51,7 @@ export class RequestHandler {
     async getRequest(statusCode: number) {
         let responseJSON: any
         const url = this.getUrl()
-        await test.step(`Get request to: ${url}`, async () => {
+        await apiStep(`Get request to: ${url}`, async () => {
             this.logger.logRequest('GET', url, this.apiHeaders)
             const response = this.request.get(url, {
                 headers: this.apiHeaders
@@ -70,7 +72,7 @@ export class RequestHandler {
     async postRequest(statusCode: number) {
         let responseJSON: any
         const url = this.getUrl()
-        await test.step(`Post request to: ${url}`, async () => {
+        await apiStep(`Post request to: ${url}`, async () => {
             this.logger.logRequest('POST', url, this.apiHeaders, this.apiBody)
             const response = this.request.post(url, {
                 headers: this.apiHeaders,
@@ -89,7 +91,7 @@ export class RequestHandler {
     async puttRequest(statusCode: number) {
         let responseJSON: any
         const url = this.getUrl()
-        await test.step(`Put request to: ${url}`, async () => {
+        await apiStep(`Put request to: ${url}`, async () => {
             this.logger.logRequest('PUT', url, this.apiHeaders, this.apiBody)
             const response = this.request.put(url, {
                 headers: this.apiHeaders,
@@ -109,7 +111,7 @@ export class RequestHandler {
     async deleteRequest(statusCode: number) {
 
         const url = this.getUrl()
-        await test.step(`Delete request to: ${url}`, async () => {
+        await apiStep(`Delete request to: ${url}`, async () => {
             this.logger.logRequest('DELETE', url, this.apiHeaders)
             const response = this.request.delete(url, {
                 headers: this.apiHeaders
