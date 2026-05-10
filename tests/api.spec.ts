@@ -7,7 +7,7 @@ test('login by valid email and password', async ({ api, config }) => {
     const response = await api
         .path('login')
         .body({ username: config.userName, password: config.Passsword })
-        .postRequest(400)
+        .postRequest(200)
     const getToken = response.ok
     const username = response.user.username
     expect(getToken === true).toBeTruthy()
