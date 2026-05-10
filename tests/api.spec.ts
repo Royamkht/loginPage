@@ -98,7 +98,7 @@ test('login by invalid username (without number)', async ({ api,config }) => {
 
     // Duplicate username is enforced in the API (user_store.registerUser), not only in the UI.
     // signup.html uses fetch → JSON; auth_common.errorMessageFromResponse displays data.error — same field.
-    test('signup by existing username', async ({ api, signupConfig, config }) => {
+    test('signup by existing username!', async ({ api, signupConfig, config }) => {
         const response = await api
             .path('sign-up')
             .body({ username: config.userName, password: signupConfig.password })
