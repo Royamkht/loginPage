@@ -14,7 +14,7 @@ test('login by valid email and password', async ({ api, config }) => {
     console.log("welcome", username)
 })
 
-test('logins by invalid password (less than 8 characters)', async ({ api, config }) => {
+test('login by invalid password (less than 8 characters)', async ({ api, config }) => {
     const response = await api
         .path('login')
         .body({ username: config.userName, password: "123" })
