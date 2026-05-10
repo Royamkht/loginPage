@@ -94,7 +94,7 @@ test('login by invalid username (without number)', async ({ api,config }) => {
 
 });
 
-test.describe('Signup API', () => {
+// test.describe('Signup API', () => {
 
     // Duplicate username is enforced in the API (user_store.registerUser), not only in the UI.
     // signup.html uses fetch → JSON; auth_common.errorMessageFromResponse displays data.error — same field.
@@ -200,8 +200,8 @@ test.describe('Signup API', () => {
         console.log("error message:", error)
     })
 
-})
-test.describe('forgot password API', () => {
+// })
+// test.describe('forgot password API', () => {
     test('forgot password with existing username', async ({ api, config }) => {
         const response = await api
             .path('forget-password')
@@ -293,4 +293,4 @@ test.describe('forgot password API', () => {
     })
    
 
-})
+// })
