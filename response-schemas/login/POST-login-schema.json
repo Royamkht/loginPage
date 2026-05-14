@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "properties": {
+        "ok": {
+            "type": "boolean"
+        },
+        "token": {
+            "type": "string"
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ]
+        }
+    },
+    "required": [
+        "ok",
+        "token",
+        "user"
+    ]
+}

@@ -2,6 +2,7 @@ import { test as base } from '@playwright/test';
 import { RequestHandler } from './requests-handler';
 import { APIlogger} from './logger'
 import { config, signupConfig } from '../api-test.config';
+import { setCustomExpectLogger } from './custom-expect';
 
 export type TestOption = {
     api: RequestHandler
@@ -12,6 +13,7 @@ export type TestOption = {
 export const test = base.extend<TestOption>({
     api: async ({request},use) => {
         const logger = new APIlogger()
+        setCustomExpectLogger(logger)
         const requestHandler = new RequestHandler(request,config.apiUrl,logger)
         await use(requestHandler)
     },
