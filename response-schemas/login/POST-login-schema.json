@@ -1,23 +1,27 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "POST /api/login success",
-  "type": "object",
-  "properties": {
-    "ok": {
-      "type": "boolean"
-    },
-    "token": {
-      "type": "string"
-    },
-    "user": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
+    "type": "object",
+    "properties": {
+        "ok": {
+            "type": "boolean"
+        },
+        "token": {
+            "type": "string"
+        },
+        "user": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "username"
+            ]
         }
-      },
-      "required": ["username"]
-    }
-  },
-  "required": ["ok", "token", "user"]
+    },
+    "required": [
+        "ok",
+        "token",
+        "user"
+    ]
 }

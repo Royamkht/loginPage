@@ -12,7 +12,7 @@ export function setCustomExpectLogger(logger: APIlogger) {
 declare global {
     namespace PlaywrightTest {
         interface Matchers<R, T = unknown> {
-            toMatchSchema(dirName: string, fileName: string): Promise<R>;
+            toMatchSchema(dirName: string, fileName: string, createSchemaFlag?: boolean ): Promise<R>;
         }
     }
 }
@@ -24,12 +24,13 @@ export const expect = baseExpect.extend({
         received: unknown,
         dirName: string,
         fileName: string,
+        createSchemaFlag: boolean = false
     ): Promise<MatcherReturnType> => {
         let pass: boolean;
         let message = '';
 
         try {
-            await validateSchema(dirName, fileName, received as object);
+            await validateSchema(dirName, fileName, received as object, createSchemaFlag);
             pass = true;
             message = 'Schema validation passed';
         } catch (e: unknown) {

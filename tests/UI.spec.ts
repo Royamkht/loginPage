@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { randomSignupUsername } from '../api-test.config';
 
- test.describe('Login page', () => {
+test.describe('Login page', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:3000/');
+        await page.goto('/');
     });
 
     test('shows sign-in heading and demo hint', async ({ page }) => {
@@ -51,11 +51,11 @@ import { randomSignupUsername } from '../api-test.config';
         await expect(page).toHaveURL(/forgot\.html$/);
         await expect(page.getByRole('heading', { name: 'Forgot password' })).toBeVisible();
     });
- });
+});
 
- test.describe('Sign up page', () => {
+test.describe('Sign up page', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('http://localhost:3000/signup.html');
+        await page.goto('/signup.html');
     });
 
     test('creates account and shows success', async ({ page }) => {
@@ -78,4 +78,4 @@ import { randomSignupUsername } from '../api-test.config';
         await expect(page.locator('#status_message')).toHaveText('Passwords do not match.');
         await expect(page.locator('#status_message')).toHaveClass(/is_error/);
     });
- });
+});

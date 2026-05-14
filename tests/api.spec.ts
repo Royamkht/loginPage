@@ -2,6 +2,44 @@ import { expect } from '../utils/custom-expect';
 import { test } from '../utils/fixtures';
 import { randomSignupUsername } from '../api-test.config';
 
+type negative_password_case = {
+    title: string
+    password: string
+    error: string
+    error_messages: string[]
+}
+
+const negative_password_cases: negative_password_case[] = [
+    {
+        title: 'invalid password (less than 8 characters)',
+        password: '123',
+        error: 'password does not meet requirements',
+        error_messages: [
+            'password must be at least 8 characters',
+            'password must include at least one capital letter',
+        ],
+    },
+    {
+        title: 'invalid password (less than 8 characters with capital letter and number)',
+        password: '123Dghj',
+        error: 'password does not meet requirements',
+        error_messages: ['password must be at least 8 characters'],
+    },
+    {
+        title: 'invalid password (without capital letter)',
+        password: 'dddd',
+        error: 'password does not meet requirements',
+        error_messages: ['password must include at least one capital letter'],
+    },
+    {
+        title: 'invalid password (without number)',
+        password: 'qwertyui',
+        error: 'password does not meet requirements',
+        error_messages: ['password must include at least one number'],
+    },  
+]
+
+
 test.describe('Login API', () => {
     test('login by valid email and password!', async ({ api, config }) => {
         const response = await api
@@ -9,91 +47,30 @@ test.describe('Login API', () => {
             .body({ username: config.userName, password: config.Passsword })
             .postRequest(200)
         await expect(response).toMatchSchema('Login', 'POST-login')
-        const getToken = response.ok
-        const username = response.user.username
+        const getToken = response.ok        
         expect(getToken === true).toBeTruthy()
     })
 
-    test('login by invid password (less than 8 characters)', async ({ api, config }) => {
-        const response = await api
-            .path('login')
-            .body({ username: config.userName, password: "123" })
-            .postRequest(400)
-        
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must be at least 8 characters',
-                'password must include at least one capital letter',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
+    test.describe('login API negative test', () => {
+        negative_password_cases.forEach(({ title, password, error, error_messages }) => {
+            test(title, async ({ api, config }) => {
+                const response = await api
+                    .path('login')
+           .body({ username: config.userName, password })
+                    .postRequest(400)
+
+                const getToken = response.ok
+                const response_error = response.error
+                const password_errors = response.password_errors
+                expect(password_errors).toEqual(expect.arrayContaining(error_messages))
+                console.log('password errors:', password_errors)
+                expect(getToken === false).toBeTruthy()
+                expect(response_error).toBe(error)
+                console.log('error message:', response_error)
+            })
+        })
     })
-    test('login by invalid username (less than 8 characters with capital letter and number)', async ({ api, config }) => {
-        const response = await api
-            .path('login')
-            .body({ username: config.userName, password: "123Dghj" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-
-                'password must be at least 8 characters',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-
-    test('login by invalid username (without capital letter)', async ({ api, config }) => {
-        const response = await api
-            .path('login')
-            .body({ username: config.userName, password: "dddd" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must include at least one capital letter'
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-
-    test('login by invalid username (without number)', async ({ api, config }) => {
-        const response = await api
-            .path('login')
-            .body({ username: config.userName, password: "qwertyui" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must include at least one number'
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-
-
-});
+})
 
 test.describe('Signup API', () => {
 
@@ -126,83 +103,27 @@ test.describe('Signup API', () => {
         console.log("welcome", username)
     })
 
+});
+    test.describe('signup API negative test', () => {
+        negative_password_cases.forEach(({title, password, error, error_messages}) => {
+            test(title, async ({ api, signupConfig }) => {
+                const response = await api
+                    .path('sign-up')
+                    .body({ username: randomSignupUsername(), password: password })
+                    .postRequest(400)
 
-    test('signup by invalid password (less than 8 characters)', async ({ api, signupConfig }) => {
-        const response = await api
-            .path('sign-up')
-            .body({ username: randomSignupUsername(), password: "123" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must be at least 8 characters',
-                'password must include at least one capital letter',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-
-    test('signup by invalid username (less than 8 characters with capital letter and number)', async ({ api, signupConfig }) => {
-        const response = await api
-            .path('sign-up')
-            .body({ username: randomSignupUsername(), password: "123dDfg" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must be at least 8 characters',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-    test('signup by invalid username (without capital letter)', async ({ api, signupConfig }) => {
-        const response = await api
-            .path('sign-up')
-            .body({ username: randomSignupUsername(), password: "123dfghj" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must include at least one capital letter',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
-    })
-    test('signup by invalid username (without number)', async ({ api, signupConfig }) => {
-        const response = await api
-            .path('sign-up')
-            .body({ username: randomSignupUsername(), password: "Qwertyui" })
-            .postRequest(400)
-        const getToken = response.ok
-        const error = response.error
-        const passwordErrors = response.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-                'password must include at least one number',
-            ]),
-        )
-        console.log("password errors:", passwordErrors)
-        expect(getToken === false).toBeTruthy()
-        expect(error).toBe("password does not meet requirements")
-        console.log("error message:", error)
+                const getToken = response.ok
+                const response_error = response.error
+                const password_errors = response.password_errors
+                expect(password_errors).toEqual(expect.arrayContaining(error_messages))
+                console.log('password errors:', password_errors)
+                expect(getToken === false).toBeTruthy()
+                expect(response_error).toBe(error)
+                console.log('error message:', response_error)
+            })
+        })
     })
 
-})
 test.describe('forgot password API', () => {
     test('forgot password with existing username', async ({ api, config }) => {
         const response = await api
@@ -262,44 +183,29 @@ test.describe('forgot password API', () => {
         expect(response2.ok).toBe(false)
         expect(response2.error).toBe("invalid or expired reset token")
     })
-    test('forgot password with expired token', async ({ api, config }) => {
-        const response = await api
-            .path('forget-password')
-            .body({ username: config.userName })
-            .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
-        expect(response.ok).toBe(true)
-        const response2 = await api
-            .path('reset-password')
-            .body({ username: config.userName, new_password: "Aa123456h", token: "invalid_token" })
-            .postRequest(400)
-        expect(response2.ok).toBe(false)
-        expect(response2.error).toBe("invalid or expired reset token")
+
+    test.describe('forget password API negative test', () => {
+        negative_password_cases.forEach(({title, password, error, error_messages}) => {
+            test(title, async ({ api, config }) => {
+                const response = await api
+                    .path('forget-password')
+                    .body({ username: config.userName })
+                    .postRequest(200)
+                await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+                expect(response.ok).toBe(true)
+                const response2 = await api
+                    .path('reset-password')
+                    .body({ username: config.userName, new_password: password, token: response.reset_token })
+                    .postRequest(400)
+                expect(response2.ok).toBe(false)
+                expect(response2.error).toBe(error)
+                const passwordErrors = response2.password_errors
+                expect(passwordErrors).toEqual(expect.arrayContaining(error_messages))
+                console.log('password errors:', passwordErrors)
+            })
+        })
     })
-    test('forgot password with invalid new_password', async ({ api, config }) => {
-        const response = await api
-            .path('forget-password')
-            .body({ username: config.userName })
-            .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
-        expect(response.ok).toBe(true)
-        const response2 = await api
-            .path('reset-password')
-            .body({ username: config.userName, new_password: "12345678", token: response.reset_token })
-            .postRequest(400)
-        expect(response2.ok).toBe(false)
-        expect(response2.error).toBe("password does not meet requirements")
-        const passwordErrors = response2.password_errors
-        expect(passwordErrors).toEqual(
-            expect.arrayContaining([
-
-                'password must include at least one capital letter',
-
-            ]),
-        )
-
-    })
-
+   
     test('change password to default', async ({ api, config }) => {
         const response = await api
             .path('forget-password')
