@@ -72,7 +72,7 @@ test.describe('Login API', () => {
     })
 })
 
-test.describe('Signup API', () => {
+test.describe('signup API', () => {
 
     // Duplicate username is enforced in the API (user_store.registerUser), not only in the UI.
     // signup.html uses fetch → JSON; auth_common.errorMessageFromResponse displays data.error — same field.
