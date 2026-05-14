@@ -96,7 +96,7 @@ test.describe('signup API', () => {
             .path('sign-up')
             .body({ username: newUser, password: signupConfig.password })
             .postRequest(201)
-        await expect(response).toMatchSchema('Sign-up', 'POST-sign-up')
+        await expect(response).toMatchSchema('sign-up', 'POST-sign-up')
         const getToken = response.ok
         const username = response.user.username
         expect(getToken === true).toBeTruthy()
@@ -130,7 +130,7 @@ test.describe('forgot password API', () => {
             .path('forget-password')
             .body({ username: config.userName })
             .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+        await expect(response).toMatchSchema('forget-password', 'POST-forget-password')
         const token = response.ok
         const reset_token = response.reset_token
         const new_password = "Aa123456h"
@@ -140,7 +140,7 @@ test.describe('forgot password API', () => {
             .path('reset-password')
             .body({ username: config.userName, new_password: new_password, token: reset_token })
             .postRequest(200)
-        expect(response2).toMatchSchema('reset-password', 'POST-reset-password')
+        await expect(response2).toMatchSchema('reset-password', 'POST-reset-password')
         const token2 = response2.ok
         expect(token2 === true).toBeTruthy()
     })
@@ -158,7 +158,7 @@ test.describe('forgot password API', () => {
             .path('forget-password')
             .body({ username: config.userName })
             .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+        await expect(response).toMatchSchema('forget-password', 'POST-forget-password')
         expect(response.ok).toBe(true)
         const reset_token = response.reset_token
         const response2 = await api
@@ -174,7 +174,7 @@ test.describe('forgot password API', () => {
             .path('forget-password')
             .body({ username: config.userName })
             .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+        await expect(response).toMatchSchema('forget-password', 'POST-forget-password')
         expect(response.ok).toBe(true)
         const response2 = await api
             .path('reset-password')
@@ -191,7 +191,7 @@ test.describe('forgot password API', () => {
                     .path('forget-password')
                     .body({ username: config.userName })
                     .postRequest(200)
-                await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+                await expect(response).toMatchSchema('forget-password', 'POST-forget-password')
                 expect(response.ok).toBe(true)
                 const response2 = await api
                     .path('reset-password')
@@ -211,7 +211,7 @@ test.describe('forgot password API', () => {
             .path('forget-password')
             .body({ username: config.userName })
             .postRequest(200)
-        await expect(response).toMatchSchema('Forget-password', 'POST-forget-password')
+        await expect(response).toMatchSchema('forget-password', 'POST-forget-password')
         expect(response.ok).toBe(true)
         const reset_token = response.reset_token
         const response2 = await api
