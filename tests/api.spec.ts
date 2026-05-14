@@ -46,7 +46,7 @@ test.describe('Login API', () => {
             .path('login')
             .body({ username: config.userName, password: config.Passsword })
             .postRequest(200)
-        await expect(response).toMatchSchema('Login', 'POST-login')
+        await expect(response).toMatchSchema('login', 'POST-login')
         const getToken = response.ok        
         expect(getToken === true).toBeTruthy()
     })
@@ -224,7 +224,7 @@ test.describe('forgot password API', () => {
             .path('login')
             .body({ username: config.userName, password: "Demo12345" })
             .postRequest(200)
-        await expect(response3).toMatchSchema('Login', 'POST-login')
+        await expect(response3).toMatchSchema('login', 'POST-login')
         expect(response3.ok).toBe(true)
     })
 
