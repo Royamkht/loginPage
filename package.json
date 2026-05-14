@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "node ./node_modules/@playwright/test/cli.js test",
-    "test:ui": "node ./node_modules/@playwright/test/cli.js test tests/ui.spec.ts --project=chromium",
+    "test:ui": "node ./node_modules/@playwright/test/cli.js test tests/UI.spec.ts --project=chromium",
     "playwright:install": "node ./node_modules/@playwright/test/cli.js install"
   },
   "engines": {
