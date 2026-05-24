@@ -122,20 +122,25 @@ Workflow file: [`.github/workflows/playwright.yml`](.github/workflows/playwright
 
 Triggers on **push** and **pull_request** to `main` or `master`.
 
-| Job        | Check name           | What it runs                          |
-| ---------- | -------------------- | ------------------------------------- |
-| `api-test` | Playwright (API)     | `tests/api.spec.ts`                   |
-| `ui-test`  | Playwright (UI)      | `tests/UI.spec.ts`                    |
+| Job id     | GitHub check name (for branch protection)              | What it runs        |
+| ---------- | ------------------------------------------------------ | ------------------- |
+| `api-test` | `Playwright Tests / Playwright (API)`                  | `tests/api.spec.ts` |
+| `ui-test`  | `Playwright Tests / Playwright (UI)`                   | `tests/UI.spec.ts`  |
 
 On failure, Playwright HTML reports are uploaded as artifacts (14-day retention).
 
 ### Branch protection (optional)
 
+You have **two** workflow jobs, so only **two** Action checks should run. If you see a third check named `api-test` stuck on *Waiting for status to be reported*, branch protection is requiring the wrong name (the job id, not the check name GitHub publishes).
+
 To require checks before merge:
 
-1. Repo **Settings** → **Branches** → add a rule for `main` / `master`
+1. Repo **Settings** → **Branches** → edit the rule for `main` / `master`
 2. Enable **Require status checks to pass**
-3. Select **Playwright (API)** and **Playwright (UI)**
+3. Remove **`api-test`** from required checks if it appears
+4. Require these two checks (exact labels from a green PR):
+   - **Playwright Tests / Playwright (API)**
+   - **Playwright Tests / Playwright (UI)**
 
 ## Project structure
 

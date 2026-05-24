@@ -7,7 +7,7 @@ on:
     branches: [main, master]
 
 jobs:
-  # Job id `api-test` matches typical branch-protection rules that wait on this check name.
+  # Job id is `api-test`; GitHub reports the check as "Playwright Tests / Playwright (API)" (workflow name + job `name`).
   api-test:
     name: Playwright (API)
     timeout-minutes: 60
