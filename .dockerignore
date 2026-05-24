@@ -1,0 +1,28 @@
+# Dependencies (installed in image via npm ci)
+node_modules/
+
+# Git and local tooling
+.git/
+.gitignore
+.cursor/
+.vscode/
+.idea/
+.DS_Store
+
+# Secrets
+.env
+.env.*
+
+# Logs and test output
+*.log
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Compose / Docker metadata (not needed inside the image)
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile
+.dockerignore
