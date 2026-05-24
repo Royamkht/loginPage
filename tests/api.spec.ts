@@ -198,7 +198,7 @@ test.describe('Signup API', () => {
     })
   
 })
-test.describe('forgot password API.', () => {
+test.describe('forgot password API...', () => {
     test('forget password with exciting username',async({ api,config }) => {
         const response = await api
             .path('forget-password')
