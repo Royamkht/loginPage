@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'http://localhost:3001',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -70,11 +70,15 @@ export default defineConfig({
     // },
   ],
 
-  /* Start API for tests that use api-test.config (localhost). In CI there is no server unless this runs. */
-  webServer: {
-    command: 'npm run start',
-    url: 'http://127.0.0.1:3000/api/health',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  /* Start API locally. Skip when tests target an external server (e.g. Docker Compose `app` service). */
+  ...(process.env.SKIP_WEBSERVER
+    ? {}
+    : {
+        webServer: {
+          command: 'npm run start',
+          url: 'http://127.0.0.1:3001/api/health',
+          reuseExistingServer: !process.env.CI,
+          timeout: 120_000,
+        },
+      }),
 });

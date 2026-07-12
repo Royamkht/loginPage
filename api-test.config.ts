@@ -4,8 +4,10 @@ const processENV = process.env.Test_ENV
 const env = processENV || 'prod'
 console.log('Test enviroment is:' + env)
 
+const base_url = (process.env.BASE_URL || 'http://localhost:3001').replace(/\/$/, '')
+
 const config = {
-    apiUrl: 'http://localhost:3000/api/',
+    apiUrl: `${base_url}/api/`,
     userName: 'demo',
     Passsword: 'Demo12345',
 }

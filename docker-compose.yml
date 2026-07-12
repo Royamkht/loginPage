@@ -1,21 +1,48 @@
-version: '3.8'
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3001"
+    environment:
+      PORT: "3001"
+    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
-      interval: 5s
-      timeout: 3s
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3001/api/health').then((r) => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
       retries: 5
+      start_period: 10s
 
-  tests:
-    build: .
+  api-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
     depends_on:
       app:
         condition: service_healthy
-    command: npx playwright test
     environment:
-      - CI=true
-      - BASE_URL=http://app:3000
+      CI: "true"
+      SKIP_WEBSERVER: "true"
+      BASE_URL: http://app:3001
+    command: npx playwright test tests/api.spec.ts --project=chromium
+
+  ui-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      CI: "true"
+      SKIP_WEBSERVER: "true"
+      BASE_URL: http://app:3001
+    command: npx playwright test tests/UI.spec.ts --project=chromium

@@ -42,7 +42,7 @@ npm ci
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3001](http://localhost:3001) in your browser.
 
 For development with auto-restart:
 
@@ -57,7 +57,7 @@ The server listens on **port 3000** by default (`src/server.js`). You only need 
 If `npm start` fails with `EADDRINUSE`, another process (often a previous `npm start` or a Playwright test run that started the app) is still bound to port 3000:
 
 ```bash
-lsof -i :3000
+lsof -i :3001
 kill <PID>    # use the PID from the lsof output
 npm start
 ```
@@ -73,7 +73,7 @@ Playwright’s `webServer` also starts the app on 3000 during tests (`reuseExist
 
 ## API
 
-Base URL: `http://localhost:3000`
+Base URL: `http://localhost:3001`
 
 | Method | Path                    | Description        |
 | ------ | ----------------------- | ------------------ |
@@ -93,7 +93,7 @@ curl -X POST http://localhost:3000/api/login \
 
 ## Tests
 
-Playwright starts the server automatically via `playwright.config.ts` (`webServer`). On CI, the app runs on `http://127.0.0.1:3000`.
+Playwright starts the server automatically via `playwright.config.ts` (`webServer`). On CI, the app runs on `http://127.0.0.1:3001`.
 
 Install browser binaries once:
 

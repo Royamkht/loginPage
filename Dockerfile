@@ -1,8 +1,13 @@
 FROM node:20-alpine
+
 WORKDIR /app
+
 COPY package*.json ./
-RUN npm ci
-RUN npx playwright install chromium --with-deps
+RUN npm ci --omit=dev
+
 COPY . .
-EXPOSE 3000
+
+ENV PORT=3001
+EXPOSE 3001
+
 CMD ["npm", "start"]

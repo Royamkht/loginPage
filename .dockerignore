@@ -25,4 +25,5 @@ playwright/.auth/
 docker-compose.yml
 docker-compose.*.yml
 Dockerfile
+Dockerfile.test
 .dockerignore
